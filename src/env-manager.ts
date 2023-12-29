@@ -44,3 +44,21 @@ export function getLoginApiUrl() {
     }
     return url;
 }
+
+// 取得首頁 Url
+export function getHomePageUrl() {
+    const url = process.env["HOME_PAGE_URL"];
+    if (!url) {
+        throw new Error("HOME_PAGE_URL is not defined");
+    }
+    return url;
+}
+
+// 取得部落格頁面 Url
+export function getBlogPageUrl() {
+    const url = process.env["BLOG_PAGE_URL"];
+    if (!url) {
+        throw new Error("BLOG_PAGE_URL is not defined");
+    }
+    return url;
+}

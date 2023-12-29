@@ -4,8 +4,17 @@ GET http://localhost:3000/getToken
 
 HTTP/1.1 200  - OK
 content-type: application/json
-date: Fri, 29 Dec 2023 08:57:54 GMT
+date: Fri, 29 Dec 2023 09:30:52 GMT
 content-length: 68
+###
+# @no-redirect
+# @describe 取得 動畫瘋當前答案
+GET http://localhost:3000/getAnswerToday
+
+HTTP/1.1 200  - OK
+content-type: application/json
+date: Fri, 29 Dec 2023 09:44:02 GMT
+content-length: 29
 ###
 # @no-redirect
 # @describe 取得登入後 cookie
