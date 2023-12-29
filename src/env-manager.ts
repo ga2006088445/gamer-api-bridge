@@ -62,3 +62,12 @@ export function getBlogPageUrl() {
     }
     return url;
 }
+
+// 取得登入時回傳的 cookie key
+export function getLoginCookieKey() {
+    const key = process.env["LOGIN_COOKIE_KEY"];
+    if (!key) {
+        throw new Error("LOGIN_COOKIE_KEY is not defined");
+    }
+    return key.split(",").map((key) => key.trim());
+}

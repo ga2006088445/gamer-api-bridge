@@ -1,6 +1,8 @@
 import { fetchPageContent, fetchPostFormUrlencoded } from "./fetch-lib";
 
-import { getLoginApiUrl, getLoginPageUrl } from "./env-manager";
+import { getLoginApiUrl, getLoginPageUrl, getLoginCookieKey } from "./env-manager";
+
+import { Cookie } from "tough-cookie";
 
 // 發送登入 API 可也接受帳號密碼的輸入函式
 export async function login(username: string, password: string) {
@@ -19,11 +21,26 @@ export async function login(username: string, password: string) {
     const response = await fetchPostFormUrlencoded(url, body);
 
     // 取得 Set-Cookie 的資料
-    const setCookie = response.headers.get("set-cookie");
-    if (!setCookie) {
+    const headerValues = response.headers.values();
+
+    if (!headerValues) {
         throw new Error("set-cookie not found");
     }
-    return setCookie;
+
+    const cookies: Cookie[] = [];
+
+    for (const headerValue of headerValues) {
+        const cookie = Cookie.parse(headerValue);
+        if (cookie) {
+            cookies.push(cookie);
+        }
+    }
+
+    const loginCookieKey = getLoginCookieKey();
+    const setCookieArrayFiltered = cookies.filter((cookie) => loginCookieKey.includes(cookie.key));
+    const cookieString = setCookieArrayFiltered.map((cookie) => cookie.cookieString()).join("; ");
+
+    return cookieString;
 }
 
 // 取得 alternativeCaptcha 的資料
