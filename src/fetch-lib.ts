@@ -20,8 +20,7 @@ export async function fetchPageContent(url: string): Promise<Document> {
     const agent = getSocksProxyAgent();
 
     const headers: Record<string, string> = {
-        "User-Agent": userAgent,
-        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": userAgent
     };
 
     cookie ? headers["Cookie"] = cookie : null;
