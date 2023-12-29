@@ -6,9 +6,14 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
-    "elysia": "latest"
+    "@elysiajs/swagger": "^0.8.0",
+    "elysia": "latest",
+    "jsdom": "^23.0.1",
+    "node-fetch": "^3.3.2",
+    "socks-proxy-agent": "^8.0.2"
   },
   "devDependencies": {
+    "@types/jsdom": "^21.1.6",
     "bun-types": "latest"
   },
   "module": "src/index.js"
