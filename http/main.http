@@ -1,0 +1,23 @@
+# @no-redirect
+# @describe 取得 一次性驗證碼
+GET http://localhost:3000/getToken
+
+HTTP/1.1 200  - OK
+content-type: application/json
+date: Fri, 29 Dec 2023 08:57:54 GMT
+content-length: 68
+###
+# @no-redirect
+# @describe 取得登入後 cookie
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username": "user",
+    "password": "userpwd"
+}
+
+HTTP/1.1 200  - OK
+content-type: application/json
+date: Fri, 29 Dec 2023 08:59:00 GMT
+content-length: 2753

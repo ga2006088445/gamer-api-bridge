@@ -1,4 +1,4 @@
-import { Elysia } from "elysia";
+import { Elysia, t } from "elysia";
 import { swagger } from "@elysiajs/swagger";
 
 import fetch from "node-fetch";
@@ -21,7 +21,7 @@ async function login(username: string, password: string) {
   cookie ? headers["Cookie"] = cookie : null;
 
   // 發送 HTTP POST form-data 請求, 回應此次請求的 SetCookie 回傳
-  const alternativeCaptcha = await getAlternativeCaptcha();
+  const { token: alternativeCaptcha } = await getAlternativeCaptcha();
 
   const body = new URLSearchParams();
   body.append("userid", username);
@@ -80,14 +80,31 @@ async function getAlternativeCaptcha() {
   if (!value) {
     throw new Error("alternativeCaptcha not found");
   }
-  return value;
+  return { token: value };
 }
 
 
 
 const app = new Elysia()
-  .use(swagger())
+  .use(
+    swagger({
+      path: "/swagger",
+      documentation: {
+        info: { version: process.env.VERSION ?? "0.0.0", title: "china-vpn" },
+      }
+    }),
+  )
   .get("/getToken", getAlternativeCaptcha)
+  .post("/login", async ({ body }) => {
+    const { username, password } = body;
+    const cookie = await login(username, password);
+    return { cookie };
+  }, {
+    body: t.Object({
+      username: t.String(),
+      password: t.String(),
+    })
+  })
   .listen(3000);
 
 console.log(
